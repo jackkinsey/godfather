@@ -8,10 +8,20 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <sstream>
 #include "input.h"
 using namespace std;
 
-AirportInputProcessor::readCSV() {
+struct Plane {
+	int numCargo;
+	int numPeople;
+	int fuel;
+	bool grandchildren;
+	double value;
+	int time;
+};
+
+void AirportInputProcessor::readCSV() {
 
 	string line;
     ifstream myfile ("data.csv");
@@ -27,4 +37,25 @@ AirportInputProcessor::readCSV() {
     
     else cout << "Unable to open file";
 
+}
+
+void AirportInputProcessor::init(int numCargo, int numPeople, int fuel, bool grandchildren, int time, Plane plane) {
+	plane.numCargo = numCargo;
+	plane.numPeople = numPeople;
+	plane.fuel = fuel;
+	plane.grandchildren = grandchildren;
+	plane.time = time;
+}
+
+void AirportInputProcessor::parseData(string CSV) {
+	string input = CSV;
+	istringstream ss(input);
+	string token;
+
+	i = 0;
+	while(std::getline(ss, token, ',')) {
+    	inputData[i] = token;
+    	i++;
+	}
+	
 }
