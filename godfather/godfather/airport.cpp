@@ -13,18 +13,21 @@ struct Plane {
 	int numPeople;
 	int fuel;
 	bool grandchildren;
+	double value;
+	int time;
 };
 
-int Airport::getValue(Plane plane) {
+void Airport::getValue(Plane plane) {
 	int Value;
 	int weightPeople = 10;
 	int weightCargo = 5;
+	int fuelFactor = 3;
 	double multiplierGrandchildren = 0.25;
 
-	if (plane.grandchildren) {Value = multiplierGrandchildren*weightPeople*plane.numPeople + weightCargo*plane.numCargo;}
+	if (plane.grandchildren) {Value = multiplierGrandchildren*weightPeople*plane.numPeople + weightCargo*plane.numCargo - fuelFactor*fuel;}
 	else {Value = weightPeople*plane.numPeople + weightCargo*plane.numCargo;}  
 
-	return Value;
+	plane.value = Value;
 
 }
 
@@ -33,18 +36,19 @@ bool Airport::refuel(Plane plane) {
 }
 
 bool Airport::depart(Plane plane) {
-	return true;
+	if 
 }
 
 bool Airport::land(Plane plane) {
-	return true;
+	(if plane == maxPlaneToLand1 || plane == maxPlaneToLand2) { return true; } else { return false}
 }
 
 bool Airport::crash(Plane plane) {
-	return true;
+	if (!land(plane) && plane.time == 1) {return true;} else {return false;}
 }
 
 
 void Airport::process() {
+
 
 }
