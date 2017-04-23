@@ -12,8 +12,7 @@
 #include "input.h"
 using namespace std;
 
-<<<<<<< HEAD
-=======
+
 struct Plane {
 	int numCargo;
 	int numPeople;
@@ -23,7 +22,6 @@ struct Plane {
 	int time;
 };
 
->>>>>>> 13e062da3a50d55d3b7996bdf7d3badd0a3132c4
 void AirportInputProcessor::readCSV() {
 
 	string line;
