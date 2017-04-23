@@ -2,8 +2,8 @@
  * array.h
  * Implements the (templated) dynamic array data structure.
  */
-#ifndef _structure
-#define _structure
+#ifndef _dynamic
+#define _dynamic
 #include <stdlib.h> //For malloc, etc.
 #include <string.h> //For memcpy.
 #include <iostream>
