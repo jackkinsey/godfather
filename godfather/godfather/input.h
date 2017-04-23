@@ -7,7 +7,8 @@
 #include "airport.h"
 
 class AirportInputProcessor {
-
+    public:
+        void readCSV();
 };
 
 #endif

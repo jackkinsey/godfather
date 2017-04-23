@@ -9,7 +9,7 @@
 #include <iostream>
 
 template <class T> struct Node {
-    T datum;
+    T* datum;
     struct Node<T>* next;
     struct Node<T>* prev;
 };
@@ -22,7 +22,7 @@ template <class T> class DynamicArray {
         int _size = 0; //How many nodes does the array contain?
 
         //Helper methods.
-        struct Node<T>* addNode(T datum, struct Node<T>* next, struct Node<T>* prev);
+        struct Node<T>* addNode(T* datum, struct Node<T>* next, struct Node<T>* prev);
         struct Node<T>* scan(int loc);
 
     public:
@@ -30,9 +30,11 @@ template <class T> class DynamicArray {
         DynamicArray(int size = 0); //Default size of a DynamicArray is 0.
         ~DynamicArray();
 
-        struct Node<T>* append(T el);
-        bool insert(T el, int loc);
+        struct Node<T>* append(T* el);
+        bool insert(T* el, int loc);
         bool remove(int loc);
+
+        int size() { return this._size; };
 };
 
 template <class T> DynamicArray<T>::DynamicArray(int size) {
@@ -63,7 +65,7 @@ template <class T> DynamicArray<T>::~DynamicArray() {
     }
 }
 
-template <class T> struct Node<T>* DynamicArray<T>::addNode(T datum, struct Node<T>* next, struct Node<T>* prev) {
+template <class T> struct Node<T>* DynamicArray<T>::addNode(T* datum, struct Node<T>* next, struct Node<T>* prev) {
     //Allocates memory for a new node and stitches it into the linked list.
     struct Node<T>* node = (struct Node<T>*)malloc(sizeof(struct Node<T>));
     node->datum = datum;
@@ -92,7 +94,7 @@ template <class T> struct Node<T>* DynamicArray<T>::scan(int loc) {
     return head;
 }
 
-template <class T> struct Node<T>* DynamicArray<T>::append(T el) {
+template <class T> struct Node<T>* DynamicArray<T>::append(T* el) {
     //Adds an element to the back of the array, creating a new node.
     //If the array hasn't been initialized, takes care of that instead.
     if(this->_size == 0) {
@@ -109,7 +111,7 @@ template <class T> struct Node<T>* DynamicArray<T>::append(T el) {
     }
 }
 
-template <class T> bool DynamicArray<T>::insert(T el, int loc) {
+template <class T> bool DynamicArray<T>::insert(T* el, int loc) {
     //Inserts an element at a given location, creating a new node.
     //Location must be within bounds of the array.
     if(loc < 0 || loc >= this->_size) { return false; }

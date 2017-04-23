@@ -11,7 +11,7 @@
 #include "input.h"
 using namespace std;
 
-AirportInputProcessor::readCSV() {
+void AirportInputProcessor::readCSV() {
 
 	string line;
     ifstream myfile ("data.csv");
