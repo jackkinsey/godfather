@@ -7,7 +7,7 @@
 
 struct Command;
 
-class InputProcessor {
+class AirportInputProcessor {
 
 };
 
