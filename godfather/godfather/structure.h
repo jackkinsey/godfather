@@ -5,14 +5,21 @@
 #ifndef _structure
 #define _structure
 #include "array.h"
+#include "airport.h"
 
-struct TimeNode;
+struct IndexNode;
 
 class Timeline {
     private:
-        DynamicArray*<TimeNode>  _center; //The central timeline.
-    public:
+        DynamicArray*<struct IndexNode>  _center; //The central timeline.
 
-}
+        struct IndexNode* createIndex(int index);
+    public:
+        Timeline();
+        ~Timeline();
+
+        struct IndexNode* fetch(int index);
+        bool push(int index, Plane el);
+};
 
 #endif

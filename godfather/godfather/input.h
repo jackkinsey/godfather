@@ -4,8 +4,7 @@
  */
 #ifndef _input
 #define _input
-
-struct Command;
+#include "airport.h"
 
 class AirportInputProcessor {
 

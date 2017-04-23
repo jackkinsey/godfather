@@ -1,5 +1,11 @@
 /*
  * structure.cpp
- * Implements the time unit data structure.
+ * Implements the timeline data structure.
  */
 #include "array.h"
+#include "airport.h"
+
+struct IndexNode {
+    int index;
+    DynamicArray<struct Plane>* data;
+};
