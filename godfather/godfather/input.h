@@ -9,6 +9,9 @@
 class AirportInputProcessor {
     public:
         void readCSV();
+        void init();
+        void parseData();
+
 };
 
 #endif
