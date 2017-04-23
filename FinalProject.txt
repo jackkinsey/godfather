@@ -1,0 +1,95 @@
+Project 4/5
+Due 4/25/17
+200 pts.
+
+• My Godfather (the Don, Michael Corleone) is the head of a major
+corporation that deals with olive oil imports from Sicily, legalized personal
+companionship, distilleries, and legal casinos gambling
+• His corporation (families) interest span the United States from N.Y. N.J.
+Chicago, and Kansas City to name a few.
+• Because the Don is a “Family” man and wants to personally talk with the
+CEOs of his interests together (and separately- when need be ) for security
+reasons he has decided to build an airport that will accommodate both
+commercial and business travel
+
+• You are to create an automatic Air Traffic Control System that manages two runways
+• Each runway is capable of landing aircraft and allowing aircraft to take of
+• Planes that wish to take of will specify the amount of fuel they currently
+have, the cost of their cargo, number of persons on board, and if a “family”
+member is onboard
+• Planes must have 20 units of fuel or they are required to go back to the gate
+and refuel (10 time units)
+• Planes that wish to land will specify the amount of fuel they currently have,
+the cost of their cargo, the number of people aboard and if there any
+“Grandchildren” aboard (family member).
+• Each runway can either land or allow a plane to take of during each time unit
+
+• For this project you are to read from an input file that contains the actions for
+the planes to perform.
+• The input file is a comma separated values (csv) file with the following format:
+
+Item        Type        Values          Description                                                 
+----------------------------------------------------------------------------------------------------
+Command     Char        D, P, W         D for data, P for print statistics, Wait for carriage return
+Time        Integer     >= 0            The relative time of the action
+Action      Char        A, D            A: Arrival, D: Departure
+Fuel        Integer     >= 0            Amount of fuel the aircraft currently has
+People      Integer     >= 0            Number of people on board
+Cargo       Float       Currency >= 0   Cargo Value amount
+Special     Char        Y, N            Y Grandchild on board N: No Grandchild
+
+• Sample input file:
+'''
+    D,0,D,100,300,500000.00,N // Data, At time 0, Departure 100 units of fuel, 300 people, 500,000.00 cargo, No Grand
+
+    D, 0,D,90,25,500.00,Y // Data, At time 0, Departure 90 units of fuel, 25 people, 500.00 cargo, Grandchild
+
+    P // Print command. Print the current statistics
+
+    W // Wait for carriage return
+
+    D,0,A,3,300,2500,Y // Data, At time 0, Arrival 3 units of fuel, 300 people, 2500.00 cargo, Grandchild
+
+    D,1,A,2,300,2500,Y // Data, At time 1, Arrival 2 units of fuel, 300 people, 2500.00 cargo, Grandchild
+
+    D,3,A,2,300,2500,N // Data, At time 3, Arrival 2 units of fuel, 300 people, 2500.00 cargo, No Grandchild
+'''
+
+• Your program should process the input file and perform the requested action.
+• You should keep the following statistics, and display after the file has been processed or on command:
+    •Average Take of wait time
+    •Average landing wait time
+    •Number of plan crash
+    •Number of plans departing
+    •Number of planes arriving
+    •Number of people that landed safely
+    •Number of people killed
+    •Number of Grandchildren killed
+    •Average wait time for a grandchild Arriving or departing. (Dead grandchildren not included)
+    •Amount of cargo that landed safely
+    •Amount of destroyed Cargo
+    •Amount of time it takes to process a input file
+
+• This is a competition project for this class
+• For this project you will demonstrate your knowledge of the data structures
+we learned about and used in class.
+• Your ability to use a “canned” data structure is limited. You must create
+your own or use the ones you developed in this class. If you have a question,
+ask me……
+• You are to create a input file that demonstrate your solution.
+• Your input files will be the input into other student solutions.
+• You will be given a form to fill out for each file processed
+
+• You will work in an assigned groups of up to 3 students per group
+• You will be required to evaluate your teammates’ contribution to the teams
+solution
+
+• You are to deliver a Power Point presentation outlining your solution
+and results (so that I can present it to Don Corleone)
+• You are to deliver your code and presentation via email
+• You may be asked to present your presentation to the class
+• You are to send me your input test file by TBD
+• You are to send me your team membership by TBD
+
+• Depending on your statistics you may meet up with
+my friends Peter Clemenza, and Luca Brasi
