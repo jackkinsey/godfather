@@ -6,11 +6,14 @@
 #define _input
 #include "airport.h"
 
+using namespace std;
+
+struct Plane;
+
 class AirportInputProcessor {
     public:
         void readCSV();
-        void init();
-        void parseData();
+        void parseData(string CSV, Plane *plane);
 
 };
 
