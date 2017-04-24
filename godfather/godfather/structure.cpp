@@ -23,22 +23,28 @@ Timeline::Timeline() {
 }
 
 Timeline::~Timeline() {
-    /*
-     * for all nodes in center:
-     *  delete node->datum->data
-     */
-    for
+    DynamicArrayIterator<struct IndexNode> iter = this->_center.iterate();
+    struct IndexNode* loc = iter.step();
+    while(loc) {
+        delete loc->data;
+        loc = iter.step();
+    }
+    delete iter;
     delete this->_center;
 }
 
 struct IndexNode* Timeline::fetch(int depth) {
-    /*
-     * return center[depth]
-     */
+    //Returns the IndexNode that is int depth deep
+    // in the Timeline. int depth must be within bounds.
+    if(depth >= this->_center.size()) { return NULL; }
+    DynamicArrayIterator<struct IndexNode> iter = this->_center.iterate();
+    struct IndexNode* loc = iter.step();
+
     return NULL;
 }
 
-bool Timeline::push(int index, struct Plane& el) {
+bool Timeline::push(int index, struct Plane* el) {
+    //Appends a Plane to the end of the IndexNode's list with index int index.
     /*
      * while center[i].index < index:
      *  i++

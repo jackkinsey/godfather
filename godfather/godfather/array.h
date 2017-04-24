@@ -14,6 +14,17 @@ template <class T> struct Node {
     struct Node<T>* prev;
 };
 
+template <class T> class DynamicArrayIterator {
+    private:
+        struct Node<T>* _iter;
+        bool _direction; //True is forward, false is backward.
+
+    public:
+        DynamicArrayIterator(struct Node<T>* iter, bool direction);
+
+        T* step();
+};
+
 template <class T> class DynamicArray {
     private:
         struct Node<T>* _first; //Pointer to the eventual physical array space.
@@ -33,10 +44,30 @@ template <class T> class DynamicArray {
         struct Node<T>* append(T* el);
         struct Node<T>* insert(T* el, int loc);
         bool remove(int loc);
-        struct Node<T>* operator[](int index);
+        DynamicArrayIterator<T>* iterate(bool direction=true);
 
         int size() { return this._size; };
 };
+
+template <class T> DynamicArrayIterator<T>::DynamicArrayIterator(struct Node<T>* iter, bool direction) {
+    this->_iter = iter;   
+    this->_direction = direction;
+}
+
+template <class T> T* DynamicArrayIterator<T>::step() {
+    T* temp;
+    if(this->_iter) {
+        temp = this->_iter->datum;
+        if(this->_direction) {
+            this->_iter = this->_iter->next;
+        } else {
+            this->_iter = this->_iter->prev;
+        }
+    } else {
+        temp = NULL;
+    }
+    return temp;
+}
 
 template <class T> DynamicArray<T>::DynamicArray(int size) {
     //Allocate the memory for the array, initialize it, and set the size counter.
@@ -154,11 +185,14 @@ template <class T> bool DynamicArray<T>::remove(int loc) {
     return true;
 }
 
-template <class T> struct Node<T>* DynamicArray<T>::operator[](int index) {
-    //Provides subscripting support.
-    //Index must be within bounds of the array.
-    if(index < 0 || index >= this->_size){ return NULL; }
-    struct Node<T>* out = this->scan(index);
-    return out->datum;
+template <class T> DynamicArrayIterator<T>* DynamicArray<T>::iterate(bool direction) {
+    //Returns an array iterator that allows the user to step through the array
+    // in the given direction. True: forward, false: backward.
+    if(direction) {
+        DynamicArrayIterator<T>* out = new DynamicArrayIterator<T>(this->_first, direction);
+    } else {
+        DynamicArrayIterator<T>* out = new DynamicArrayIterator<T>(this->_last, direction);
+    }
+    return out;
 }
 #endif

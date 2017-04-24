@@ -9,6 +9,16 @@
 
 struct IndexNode;
 
+class TimelineIterator {
+    private:
+        DynamicArrayIterator<struct IndexNode>* _iter;
+
+    public:
+        TimelineIterator(DynamicArrayIterator<struct IndexNode>* iter);
+
+        struct IndexNode* step();
+}
+
 class Timeline {
     private:
         DynamicArray<struct IndexNode>*  _center; //The central timeline.
@@ -18,8 +28,8 @@ class Timeline {
         Timeline();
         ~Timeline();
 
-        struct IndexNode* fetch(int depth); //Returns the IndexNode that is int depth deep in the Timeline.
-        bool push(int index, struct Plane* el); //Appends a Plane to the end of the IndexNode's list with index int index.
+        TimelineIterator* iterate();
+        bool push(int index, struct Plane* el);
 };
 
 #endif
