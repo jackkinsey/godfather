@@ -12,8 +12,10 @@ struct Plane;
 
 class AirportInputProcessor {
     public:
+    	Plane *plane;
         void readCSV();
         void parseData(string CSV, Plane *plane);
+        void initializeTimeline();
 
 };
 

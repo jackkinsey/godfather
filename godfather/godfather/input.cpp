@@ -10,7 +10,7 @@
 #include <string>
 #include <sstream>
 #include "input.h"
-//#include "structure.h"
+#include "structure.h"
 
 using namespace std;
 
@@ -24,14 +24,14 @@ struct Plane {
 	int numCargo;
 	bool grandchildren;
 	double value;
-
-	Plane *next;
 	
 };
 
+
+
 void AirportInputProcessor::readCSV() {
-	Plane *plane = new Plane; //Initialize first instance of the Plane structure
-	Plane *constr = plane;		//Initialize a navigator to walk from struct to struct
+
+	plane = new Plane; //Initialize first instance of the Plane structure
 	string line;				//this is the variable line that is obtained from each line of the CSV
     ifstream myfile ("data.csv");	//opens the "data.csv" file to be read
     if (myfile.is_open())			//if the file is successfully opened...
@@ -39,12 +39,11 @@ void AirportInputProcessor::readCSV() {
         cout <<"File is Open"<<"\n";	//let me know that the file is opened
         while ( getline (myfile,line) )	//while we can get line from the file
         {
-
-            parseData(line, constr);		//initialize the constructors properties with the elements of each line
-            constr->next = new Plane;	//initialize a new instance of the plane
-            constr = constr->next;		//the constr is now the new plane
+        	cout<<line<<"\n";
+            parseData(line, plane);		//initialize the constructors properties with the elements of each line
+            initializeTimeline();
+            plane = new Plane;	//initialize a new instance of the plane
         }
-        constr = nullptr;				//once we cannot read the file anymore, the last constructor should be null
         myfile.close();					//close the file
     }
     
@@ -52,13 +51,6 @@ void AirportInputProcessor::readCSV() {
 
 }
 
-void AirportInputProcessor::init(char dataType, int time, char action, int fuel, int numPeople, int numCargo, bool grandchildren,  Plane *plane) {
-	plane->numCargo = numCargo;	//initialize the Plane struct's properties
-	plane->numPeople = numPeople;
-	plane->fuel = fuel;
-	plane->grandchildren = grandchildren;
-	plane->time = time;
-}
 
 void AirportInputProcessor::parseData(string CSV, Plane *plane) {		
 	istringstream ss(CSV); 		//CSV is the comma seperateed line of the excel file
@@ -71,9 +63,9 @@ void AirportInputProcessor::parseData(string CSV, Plane *plane) {
 	int i = 0;					//initialize a counter i
 	while(std::getline(ss, token, ',')) {		//get the tokens of the CSV file
     	inputData[i] = token;					//the ith element of the inputData file is going to be this token
+    	cout<<"TOKEN ["<<i<<"]: "<<token<<"\n";
     	i++;
 	}
-<<<<<<< HEAD
 
 	char dataType = inputData[0][0];			//converting the dataType to a char
 	int time = std::stoi(inputData[1]);				//convert to INT
@@ -86,11 +78,20 @@ void AirportInputProcessor::parseData(string CSV, Plane *plane) {
 		grandchildren = true;
 	} else { grandchildren = false;}
 
-	init(dataType, time, action, fuel, numPeople, numCargo, grandchildren, plane);
+	plane->numCargo = numCargo;	//initialize the Plane struct's properties
+	plane->numPeople = numPeople;
+	plane->fuel = fuel;
+	plane->grandchildren = grandchildren;
+	plane->time = time;
+	plane->dataType = dataType;
+	plane->action = action;
+
 	
-=======
->>>>>>> 0b4221f5e1f063a2f460a5c01e53bf001ee9b2b9
 }
 
+void AirportInputProcessor::initializeTimeline() {
+	Timeline timeline;
+	timeline.push(plane->time, Plane);
+}
 
 
