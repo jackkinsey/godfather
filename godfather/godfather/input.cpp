@@ -58,5 +58,4 @@ void AirportInputProcessor::parseData(string CSV) {
     	inputData[i] = token;
     	i++;
 	}
-	
 }
