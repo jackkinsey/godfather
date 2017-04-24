@@ -15,7 +15,7 @@ class AirportInputProcessor {
         Airport* _airport;
 
     public:
-        AirportInputProcessor();
+        AirportInputProcessor(char[] file);
         ~AirportInputProcessor();
         void parseData(string CSV, Plane *plane);
 
