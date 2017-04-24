@@ -31,7 +31,7 @@ template <class T> class DynamicArray {
         ~DynamicArray();
 
         struct Node<T>* append(T* el);
-        bool insert(T* el, int loc);
+        struct Node<T>* insert(T* el, int loc);
         bool remove(int loc);
 
         int size() { return this._size; };
@@ -60,6 +60,7 @@ template <class T> DynamicArray<T>::~DynamicArray() {
     struct Node<T>* next;
     while(head) {
         next = head->next;
+        delete head->datum;
         free(head);
         head = next;
     }
@@ -111,7 +112,7 @@ template <class T> struct Node<T>* DynamicArray<T>::append(T* el) {
     }
 }
 
-template <class T> bool DynamicArray<T>::insert(T* el, int loc) {
+template <class T> struct Node<T>* DynamicArray<T>::insert(T* el, int loc) {
     //Inserts an element at a given location, creating a new node.
     //Location must be within bounds of the array.
     if(loc < 0 || loc >= this->_size) { return false; }

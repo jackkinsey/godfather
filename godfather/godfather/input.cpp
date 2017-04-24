@@ -14,7 +14,6 @@
 
 using namespace std;
 
-
 struct Plane {
 	char dataType;
 	int time;
@@ -27,13 +26,11 @@ struct Plane {
 	
 };
 
-
-
-void AirportInputProcessor::readCSV() {
-
+AirportInputProcessor::AirportInputProcessor(char[] file){
 	plane = new Plane; //Initialize first instance of the Plane structure
 	string line;				//this is the variable line that is obtained from each line of the CSV
-    ifstream myfile ("data.csv");	//opens the "data.csv" file to be read
+        Timeline timeline = new Timeline();
+    ifstream myfile (file);	//opens the "data.csv" file to be read
     if (myfile.is_open())			//if the file is successfully opened...
     {
         cout <<"File is Open"<<"\n";	//let me know that the file is opened
@@ -41,16 +38,22 @@ void AirportInputProcessor::readCSV() {
         {
         	cout<<line<<"\n";
             parseData(line, plane);		//initialize the constructors properties with the elements of each line
-            initializeTimeline();
+            timeline.push(plane->time, plane);
             plane = new Plane;	//initialize a new instance of the plane
         }
         myfile.close();					//close the file
+        this->_airport = new Airport(timeline);
+        this->_airport->process();
+        this->_airport->print();
     }
     
     else cout << "Unable to open file";	//the exception statement
 
 }
 
+AirportInputProcessor::~AirportInputProcessor(){
+
+}
 
 void AirportInputProcessor::parseData(string CSV, Plane *plane) {		
 	istringstream ss(CSV); 		//CSV is the comma seperateed line of the excel file
@@ -85,13 +88,5 @@ void AirportInputProcessor::parseData(string CSV, Plane *plane) {
 	plane->time = time;
 	plane->dataType = dataType;
 	plane->action = action;
-
-	
 }
-
-void AirportInputProcessor::initializeTimeline() {
-	Timeline timeline;
-	timeline.push(plane->time, Plane);
-}
-
 

@@ -12,13 +12,10 @@ struct IndexNode {
 };
 
 struct IndexNode* Timeline::createIndex(int depth, int index) {
-    /*
-     * IndexNode newTime = {};
-     * newTime.index = index;
-     * newTime.data = new DynamicArray<struct Plane>;
-     * center.insert(depth, newTime);
-     */
-    return NULL;
+    IndexNode newTime = new IndexNode;
+    newTime->index = index;
+    newTime->data = new DynamicArray<struct Plane>;
+    this->_center.insert(newTime, depth)
 }
 
 Timeline::Timeline() {

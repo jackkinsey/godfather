@@ -11,11 +11,13 @@ using namespace std;
 struct Plane;
 
 class AirportInputProcessor {
+    private:
+        Airport* _airport;
+
     public:
-    	Plane *plane;
-        void readCSV();
+        AirportInputProcessor();
+        ~AirportInputProcessor();
         void parseData(string CSV, Plane *plane);
-        void initializeTimeline();
 
 };
 

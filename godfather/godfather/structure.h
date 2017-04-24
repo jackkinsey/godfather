@@ -19,7 +19,7 @@ class Timeline {
         ~Timeline();
 
         struct IndexNode* fetch(int depth); //Returns the IndexNode that is int depth deep in the Timeline.
-        bool push(int index, struct Plane& el); //Appends a Plane to the end of the IndexNode's list with index int index.
+        bool push(int index, struct Plane* el); //Appends a Plane to the end of the IndexNode's list with index int index.
 };
 
 #endif
