@@ -13,7 +13,7 @@ class Timeline {
     private:
         DynamicArray<struct IndexNode>*  _center; //The central timeline.
 
-        struct IndexNode* createIndex(int index);
+        struct IndexNode* createIndex(int depth, int index);
     public:
         Timeline();
         ~Timeline();

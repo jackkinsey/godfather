@@ -73,6 +73,7 @@ void AirportInputProcessor::parseData(string CSV, Plane *plane) {
     	inputData[i] = token;					//the ith element of the inputData file is going to be this token
     	i++;
 	}
+<<<<<<< HEAD
 
 	char dataType = inputData[0][0];			//converting the dataType to a char
 	int time = std::stoi(inputData[1]);				//convert to INT
@@ -87,6 +88,8 @@ void AirportInputProcessor::parseData(string CSV, Plane *plane) {
 
 	init(dataType, time, action, fuel, numPeople, numCargo, grandchildren, plane);
 	
+=======
+>>>>>>> 0b4221f5e1f063a2f460a5c01e53bf001ee9b2b9
 }
 
 
