@@ -27,6 +27,7 @@ Timeline::~Timeline() {
      * for all nodes in center:
      *  delete node->datum->data
      */
+    for
     delete this->_center;
 }
 

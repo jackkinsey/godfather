@@ -33,6 +33,7 @@ template <class T> class DynamicArray {
         struct Node<T>* append(T* el);
         struct Node<T>* insert(T* el, int loc);
         bool remove(int loc);
+        struct Node<T>* operator[](int index);
 
         int size() { return this._size; };
 };
@@ -115,7 +116,7 @@ template <class T> struct Node<T>* DynamicArray<T>::append(T* el) {
 template <class T> struct Node<T>* DynamicArray<T>::insert(T* el, int loc) {
     //Inserts an element at a given location, creating a new node.
     //Location must be within bounds of the array.
-    if(loc < 0 || loc >= this->_size) { return false; }
+    if(loc < 0 || loc >= this->_size) { return NULL; }
     struct Node<T>* head = this->scan(loc);
     struct Node<T>* prev = head->prev;
     struct Node<T>* node = this->addNode(el, head, prev);
@@ -126,7 +127,7 @@ template <class T> struct Node<T>* DynamicArray<T>::insert(T* el, int loc) {
         this->_first = node;
     }
     this->_size++;
-    return true;
+    return node;
 }
 
 template <class T> bool DynamicArray<T>::remove(int loc) {
@@ -151,5 +152,13 @@ template <class T> bool DynamicArray<T>::remove(int loc) {
     free(head);
     this->_size--;
     return true;
+}
+
+template <class T> struct Node<T>* DynamicArray<T>::operator[](int index) {
+    //Provides subscripting support.
+    //Index must be within bounds of the array.
+    if(index < 0 || index >= this->_size){ return NULL; }
+    struct Node<T>* out = this->scan(index);
+    return out->datum;
 }
 #endif
