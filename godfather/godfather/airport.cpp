@@ -14,6 +14,7 @@ Airport::Airport(Timeline* timeline) {
 
 Airport::~Airport() {
     delete this->_timeline;
+    this->_timeline = nullptr;
 }
 
 void Airport::getValue(Plane* plane) {

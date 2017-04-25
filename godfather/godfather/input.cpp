@@ -15,38 +15,42 @@
 using namespace std;
 
 AirportInputProcessor::AirportInputProcessor(char* input){
-	Plane* plane = new Plane; //Initialize first instance of the Plane structure
-	string line;				//this is the variable line that is obtained from each line of the CSV
-        Timeline* timeline = new Timeline;
+    this->_airport = nullptr;
+    Plane* plane; //Initialize first instance of the Plane structure
+    string line;				//this is the variable line that is obtained from each line of the CSV
+    Timeline* timeline = new Timeline;
     ifstream myfile (input);	//opens the "data.csv" file to be read
-    if (myfile.is_open())			//if the file is successfully opened...
-    {
-        cout <<"File is Open"<<"\n";	//let me know that the file is opened
+    if (myfile.is_open()) {		//if the file is successfully opened...
+        //cout <<"File is Open"<<"\n";	//let me know that the file is opened
         while ( getline (myfile,line) )	//while we can get line from the file
         {
-        	cout<<line<<"\n";
+            //cout<<line<<"\n";
+            plane = new Plane;	//initialize a new instance of the plane
             parseData(line, plane);		//initialize the constructors properties with the elements of each line
             timeline->push(plane->time, plane);
-            plane = new Plane;	//initialize a new instance of the plane
         }
         myfile.close();					//close the file
         this->_airport = new Airport(timeline);
-    }
-    
-    else cout << "Unable to open file";	//the exception statement
-
+    } else cout << "Unable to open file";	//the exception statement
 }
 
 AirportInputProcessor::~AirportInputProcessor(){
-    delete this->_airport;
+    if(this->_airport) {
+        delete this->_airport;
+        this->_airport = nullptr;
+    }
 }
 
 void AirportInputProcessor::process() {
-    this->_airport->process();
+    if(this->_airport) {
+        this->_airport->process();
+    }
 }
 
 void AirportInputProcessor::print() {
-    this->_airport->print();
+    if(this->_airport) {
+        this->_airport->print();
+    }
 }
 
 void AirportInputProcessor::parseData(string CSV, Plane *plane) {		
@@ -55,13 +59,11 @@ void AirportInputProcessor::parseData(string CSV, Plane *plane) {
 
 	string inputData[7];		//initialize InputData[7]
 
-	plane = new Plane;	//the plane is initialized to a new instance of the Plane struct
-
 	int i = 0;					//initialize a counter i
 	while(std::getline(ss, token, ',')) {		//get the tokens of the CSV file
-    	inputData[i] = token;					//the ith element of the inputData file is going to be this token
-    	cout<<"TOKEN ["<<i<<"]: "<<token<<"\n";
-    	i++;
+            inputData[i] = token;			//the ith element of the inputData file is going to be this token
+            //cout<<"TOKEN ["<<i<<"]: "<<token<<"\n";
+            i++;
 	}
 
 	char dataType = inputData[0][0];			//converting the dataType to a char
@@ -83,4 +85,3 @@ void AirportInputProcessor::parseData(string CSV, Plane *plane) {
 	plane->dataType = dataType;
 	plane->action = action;
 }
-

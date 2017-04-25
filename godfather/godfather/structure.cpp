@@ -11,6 +11,7 @@ TimelineIterator::TimelineIterator(DynamicArray<struct IndexNode>* iter) {
 
 TimelineIterator::~TimelineIterator() {
     delete this->_iter;
+    this->_iter = nullptr;
 }
 
 struct IndexNode* TimelineIterator::step() {
@@ -22,22 +23,32 @@ struct IndexNode* Timeline::createIndex(int depth, int index) {
     //Add a new node to the central timeline.
     //The new node is depth deep in the timeline, and is
     // initialized to have time index of index.
-    //(Returns NULL if depth is larger than the array size + 1.)
+    //(Returns nullptr if depth is larger than the array size + 1.)
     if(depth == this->_center->size()) {
-    
+        IndexNode* newTime = new IndexNode;
+        newTime->index = index;
+        newTime->data = new DynamicArray<struct Plane>;
+        this->_center->append(newTime);
+        return newTime;
     } else if(depth > this->_center->size()) {
-    
+        return nullptr;   
+    } else {
+        IndexNode* newTime = new IndexNode;
+        newTime->index = index;
+        newTime->data = new DynamicArray<struct Plane>;
+        if(this->_center->insert(newTime, depth)) { 
+            return newTime; 
+        } else { 
+            delete newTime->data;
+            delete newTime; 
+            return nullptr; 
+        }
     }
-    IndexNode* newTime = new IndexNode;
-    newTime->index = index;
-    newTime->data = new DynamicArray<struct Plane>;
-    if(this->_center->insert(newTime, depth)) { 
-        return newTime; 
-    } else { 
-        delete newTime->data;
-        delete newTime; 
-        return NULL; 
-    }
+}
+
+void Timeline::deleteIndex(struct IndexNode* index) {
+    delete index->data;
+    index->data = nullptr;
 }
 
 Timeline::Timeline() {
@@ -51,7 +62,7 @@ Timeline::~Timeline() {
     DynamicArrayIterator<struct IndexNode>* iter = this->_center->iterate();
     struct IndexNode* loc = iter->step();
     while(loc) {
-        delete loc->data;
+        this->deleteIndex(loc);
         loc = iter->step();
     }
     delete iter;
@@ -72,8 +83,10 @@ bool Timeline::push(int index, struct Plane* el) {
     while(node) { //Walk the list until we find an IndexNode with
                   // the index we're looking for, or greater.
         if(node->index >= index) { break; }
+        node = iter->step();
         count++;
     }
+    delete iter;
     if(node) { //If the node isn't null...
         if(node->index == index) { //Either append the element (the node already exists)...
             node->data->append(el);
@@ -85,5 +98,4 @@ bool Timeline::push(int index, struct Plane* el) {
         this->createIndex(count, index)->data->append(el);
         return true;
     }
-    return false; //You've met with a terrible fate, haven't you?
 }

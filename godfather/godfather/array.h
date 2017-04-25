@@ -64,7 +64,7 @@ template <class T> T* DynamicArrayIterator<T>::step() {
             this->_iter = this->_iter->prev;
         }
     } else {
-        temp = NULL;
+        temp = nullptr;
     }
     return temp;
 }
@@ -74,14 +74,14 @@ template <class T> DynamicArray<T>::DynamicArray(int size) {
     //Negative sizes are treated as 0.
     if(size < 0) { size = 0; }
     if(size > 0) {
-        this->_first = this->addNode(NULL, NULL, NULL);
+        this->_first = this->addNode(nullptr, nullptr, nullptr);
         this->_last = this->_first;
         for(int i = 0; i < size - 1; i++) {
-            this->_last = this->append(NULL);
+            this->_last = this->append(nullptr);
         }
     } else {
-        this->_first = NULL;
-        this->_last = NULL;
+        this->_first = nullptr;
+        this->_last = nullptr;
     }
     this->_size = size;
 }
@@ -110,7 +110,7 @@ template <class T> struct Node<T>* DynamicArray<T>::addNode(T* datum, struct Nod
 template <class T> struct Node<T>* DynamicArray<T>::scan(int loc) {
     //Returns a pointer to the node at the given location.
     //Location must be within the bounds of the array.
-    if(loc < 0 || loc >= this->_size) { return NULL; }
+    if(loc < 0 || loc >= this->_size) { return nullptr; }
     struct Node<T>* head;
     //Do we scan from the beginning or the end of the list?
     if(loc >= this->_size/2) { //Start from the end.
@@ -131,12 +131,12 @@ template <class T> struct Node<T>* DynamicArray<T>::append(T* el) {
     //Adds an element to the back of the array, creating a new node.
     //If the array hasn't been initialized, takes care of that instead.
     if(this->_size == 0) {
-        this->_first = this->addNode(el, NULL, NULL);
+        this->_first = this->addNode(el, nullptr, nullptr);
         this->_last = this->_first;
         this->_size++;
         return this->_first;
     } else {
-        struct Node<T>* node = this->addNode(el, NULL, this->_last);
+        struct Node<T>* node = this->addNode(el, nullptr, this->_last);
         this->_last->next = node;
         this->_last = node;
         this->_size++;
@@ -147,7 +147,7 @@ template <class T> struct Node<T>* DynamicArray<T>::append(T* el) {
 template <class T> struct Node<T>* DynamicArray<T>::insert(T* el, int loc) {
     //Inserts an element at a given location, creating a new node.
     //Location must be within bounds of the array.
-    if(loc < 0 || loc >= this->_size) { return NULL; }
+    if(loc < 0 || loc >= this->_size) { return nullptr; }
     struct Node<T>* head = this->scan(loc);
     struct Node<T>* prev = head->prev;
     struct Node<T>* node = this->addNode(el, head, prev);
