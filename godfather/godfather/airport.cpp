@@ -170,8 +170,7 @@ void Airport::process() {
         delete timeIter;
         timeIter = nullptr;
 
-        //time->sort();
-        //How is this supposed to work??
+        time->sort();
 
         timeIter = time->iterate();
         plane = timeIter->step();

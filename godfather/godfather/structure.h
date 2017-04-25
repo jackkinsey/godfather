@@ -20,7 +20,6 @@ struct Plane {
 	int numPeople;
 	int numCargo;
 	double value;
-	
 };
 
 
@@ -41,6 +40,7 @@ class Timeline {
 
         struct IndexNode* createIndex(int depth, int index);
         void deleteIndex(struct IndexNode* index);
+
     public:
         Timeline();
         ~Timeline();

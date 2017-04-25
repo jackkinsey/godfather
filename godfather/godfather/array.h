@@ -55,6 +55,7 @@ template <class T> DynamicArrayIterator<T>::DynamicArrayIterator(struct Node<T>*
 }
 
 template <class T> T* DynamicArrayIterator<T>::step() {
+    //Returns the current node and then moves on to the next node in the list.
     T* temp;
     if(this->_iter) {
         temp = this->_iter->datum;
