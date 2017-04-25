@@ -4,57 +4,75 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
+Airport	airport.cpp	/^Airport::Airport(Timeline* timeline) {$/;"	f	class:Airport
 Airport	airport.h	/^class Airport {$/;"	c
+AirportInputProcessor	input.cpp	/^AirportInputProcessor::AirportInputProcessor(char* input){$/;"	f	class:AirportInputProcessor
 AirportInputProcessor	input.h	/^class AirportInputProcessor {$/;"	c
-CXX	Makefile	/^CXX = g++$/;"	m
-CXXFLAGS	Makefile	/^CXXFLAGS = -Wall -g -std=c++11$/;"	m
 DynamicArray	array.h	/^template <class T> DynamicArray<T>::DynamicArray(int size) {$/;"	f	class:DynamicArray
 DynamicArray	array.h	/^template <class T> class DynamicArray {$/;"	c
-EXE	Makefile	/^EXE = godfather$/;"	m
-IndexNode	structure.cpp	/^struct IndexNode {$/;"	s	file:
+DynamicArrayIterator	array.h	/^template <class T> DynamicArrayIterator<T>::DynamicArrayIterator(struct Node<T>* iter, bool direction) {$/;"	f	class:DynamicArrayIterator
+DynamicArrayIterator	array.h	/^template <class T> class DynamicArrayIterator {$/;"	c
+IndexNode	structure.h	/^struct IndexNode {$/;"	s
 Node	array.h	/^template <class T> struct Node {$/;"	s
-Plane	airport.cpp	/^struct Plane {$/;"	s	file:
+Plane	structure.h	/^struct Plane {$/;"	s
 Timeline	structure.cpp	/^Timeline::Timeline() {$/;"	f	class:Timeline
 Timeline	structure.h	/^class Timeline {$/;"	c
-_airport	airport.h	6;"	d
+TimelineIterator	structure.cpp	/^TimelineIterator::TimelineIterator(DynamicArray<struct IndexNode>* iter) {$/;"	f	class:TimelineIterator
+TimelineIterator	structure.h	/^class TimelineIterator {$/;"	c
+_airport	input.h	/^        Airport* _airport;$/;"	m	class:AirportInputProcessor
+_airport_h	airport.h	6;"	d
 _center	structure.h	/^        DynamicArray<struct IndexNode>*  _center; \/\/The central timeline.$/;"	m	class:Timeline
-_dynamic	array.h	6;"	d
+_direction	array.h	/^        bool _direction; \/\/True is forward, false is backward.$/;"	m	class:DynamicArrayIterator
+_dynamic_h	array.h	6;"	d
 _first	array.h	/^        struct Node<T>* _first; \/\/Pointer to the eventual physical array space.$/;"	m	class:DynamicArray	typeref:struct:DynamicArray::Node
-_input	input.h	6;"	d
+_input_h	input.h	6;"	d
+_iter	array.h	/^        struct Node<T>* _iter;$/;"	m	class:DynamicArrayIterator	typeref:struct:DynamicArrayIterator::Node
+_iter	structure.h	/^        DynamicArrayIterator<struct IndexNode>* _iter;$/;"	m	class:TimelineIterator
 _last	array.h	/^        struct Node<T>* _last; \/\/Pointer to the eventual physical array space.$/;"	m	class:DynamicArray	typeref:struct:DynamicArray::Node
 _size	array.h	/^        int _size = 0; \/\/How many nodes does the array contain?$/;"	m	class:DynamicArray
-_structure	structure.h	6;"	d
+_structure_h	structure.h	6;"	d
+_timeline	airport.h	/^        Timeline* _timeline;$/;"	m	class:Airport
+action	structure.h	/^	char action;$/;"	m	struct:Plane
 addNode	array.h	/^template <class T> struct Node<T>* DynamicArray<T>::addNode(T* datum, struct Node<T>* next, struct Node<T>* prev) {$/;"	f	class:DynamicArray
 append	array.h	/^template <class T> struct Node<T>* DynamicArray<T>::append(T* el) {$/;"	f	class:DynamicArray
-crash	airport.cpp	/^bool Airport::crash(Plane plane) {$/;"	f	class:Airport
-createIndex	structure.cpp	/^struct IndexNode* Timeline::createIndex(int index) {$/;"	f	class:Timeline
-data	structure.cpp	/^    DynamicArray<struct Plane>* data;$/;"	m	struct:IndexNode	file:
+crash	airport.cpp	/^bool Airport::crash(Plane* plane) {$/;"	f	class:Airport
+createIndex	structure.cpp	/^struct IndexNode* Timeline::createIndex(int depth, int index) {$/;"	f	class:Timeline
+data	structure.h	/^    DynamicArray<struct Plane>* data;$/;"	m	struct:IndexNode
+dataType	structure.h	/^	char dataType;$/;"	m	struct:Plane
 datum	array.h	/^    T* datum;$/;"	m	struct:Node
-depart	airport.cpp	/^bool Airport::depart(Plane plane) {$/;"	f	class:Airport
-fetch	structure.cpp	/^struct IndexNode* Timeline::fetch(int depth) {$/;"	f	class:Timeline
-fuel	airport.cpp	/^	int fuel;$/;"	m	struct:Plane	file:
-getValue	airport.cpp	/^void Airport::getValue(Plane plane) {$/;"	f	class:Airport
-grandchildren	airport.cpp	/^	bool grandchildren;$/;"	m	struct:Plane	file:
-index	structure.cpp	/^    int index;$/;"	m	struct:IndexNode	file:
-init	input.cpp	/^void AirportInputProcessor::init(int numCargo, int numPeople, int fuel, bool grandchildren, int time, Plane plane) {$/;"	f	class:AirportInputProcessor
-insert	array.h	/^template <class T> bool DynamicArray<T>::insert(T* el, int loc) {$/;"	f	class:DynamicArray
-land	airport.cpp	/^bool Airport::land(Plane plane) {$/;"	f	class:Airport
-main	main.cpp	/^int main(int argc, const char * argv[]) {$/;"	f
+deleteIndex	structure.cpp	/^void Timeline::deleteIndex(struct IndexNode* index) {$/;"	f	class:Timeline
+depart	airport.cpp	/^bool Airport::depart(Plane* plane) {$/;"	f	class:Airport
+fuel	structure.h	/^	int fuel;$/;"	m	struct:Plane
+getValue	airport.cpp	/^void Airport::getValue(Plane* plane) {$/;"	f	class:Airport
+grandchildren	structure.h	/^	bool grandchildren;$/;"	m	struct:Plane
+index	structure.h	/^    int index;$/;"	m	struct:IndexNode
+insert	array.h	/^template <class T> struct Node<T>* DynamicArray<T>::insert(T* el, int loc) {$/;"	f	class:DynamicArray
+iterate	array.h	/^template <class T> DynamicArrayIterator<T>* DynamicArray<T>::iterate(bool direction) {$/;"	f	class:DynamicArray
+iterate	structure.cpp	/^TimelineIterator* Timeline::iterate() {$/;"	f	class:Timeline
+land	airport.cpp	/^bool Airport::land(Plane* plane) {$/;"	f	class:Airport
+main	main.cpp	/^int main(int argc, char* argv[]) {$/;"	f
 next	array.h	/^    struct Node<T>* next;$/;"	m	struct:Node	typeref:struct:Node::Node
-numCargo	airport.cpp	/^	int numCargo;$/;"	m	struct:Plane	file:
-numPeople	airport.cpp	/^	int numPeople;$/;"	m	struct:Plane	file:
+numCargo	structure.h	/^	int numCargo;$/;"	m	struct:Plane
+numPeople	structure.h	/^	int numPeople;$/;"	m	struct:Plane
 numberOfArrivingPlanes	airport.h	/^	int numberOfArrivingPlanes; $/;"	m	class:Airport
 numberOfDepartingPlanes	airport.h	/^	int numberOfDepartingPlanes;$/;"	m	class:Airport
-parseData	input.cpp	/^void AirportInputProcessor::parseData(string CSV) {$/;"	f	class:AirportInputProcessor
+parseData	input.cpp	/^void AirportInputProcessor::parseData(string CSV, Plane *plane) {		$/;"	f	class:AirportInputProcessor
 prev	array.h	/^    struct Node<T>* prev;$/;"	m	struct:Node	typeref:struct:Node::Node
+print	airport.cpp	/^void Airport::print() {$/;"	f	class:Airport
+print	input.cpp	/^void AirportInputProcessor::print() {$/;"	f	class:AirportInputProcessor
 process	airport.cpp	/^void Airport::process() {$/;"	f	class:Airport
-push	structure.cpp	/^bool Timeline::push(int index, struct Plane& el) {$/;"	f	class:Timeline
-readCSV	input.cpp	/^void AirportInputProcessor::readCSV() {$/;"	f	class:AirportInputProcessor
-refuel	airport.cpp	/^bool Airport::refuel(Plane plane) {$/;"	f	class:Airport
+process	input.cpp	/^void AirportInputProcessor::process() {$/;"	f	class:AirportInputProcessor
+push	structure.cpp	/^bool Timeline::push(int index, struct Plane* el) {$/;"	f	class:Timeline
+refuel	airport.cpp	/^bool Airport::refuel(Plane* plane) {$/;"	f	class:Airport
 remove	array.h	/^template <class T> bool DynamicArray<T>::remove(int loc) {$/;"	f	class:DynamicArray
 scan	array.h	/^template <class T> struct Node<T>* DynamicArray<T>::scan(int loc) {$/;"	f	class:DynamicArray
-size	array.h	/^        int size() { return this._size; };$/;"	f	class:DynamicArray
-time	airport.cpp	/^	int time;$/;"	m	struct:Plane	file:
-value	airport.cpp	/^	double value;$/;"	m	struct:Plane	file:
+size	array.h	/^        int size() { return this->_size; };$/;"	f	class:DynamicArray
+step	array.h	/^template <class T> T* DynamicArrayIterator<T>::step() {$/;"	f	class:DynamicArrayIterator
+step	structure.cpp	/^struct IndexNode* TimelineIterator::step() {$/;"	f	class:TimelineIterator
+time	structure.h	/^	int time;$/;"	m	struct:Plane
+value	structure.h	/^	double value;$/;"	m	struct:Plane
+~Airport	airport.cpp	/^Airport::~Airport() {$/;"	f	class:Airport
+~AirportInputProcessor	input.cpp	/^AirportInputProcessor::~AirportInputProcessor(){$/;"	f	class:AirportInputProcessor
 ~DynamicArray	array.h	/^template <class T> DynamicArray<T>::~DynamicArray() {$/;"	f	class:DynamicArray
 ~Timeline	structure.cpp	/^Timeline::~Timeline() {$/;"	f	class:Timeline
+~TimelineIterator	structure.cpp	/^TimelineIterator::~TimelineIterator() {$/;"	f	class:TimelineIterator
