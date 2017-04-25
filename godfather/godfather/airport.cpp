@@ -203,10 +203,10 @@ void Airport::print() {
         printf("Amount of cargo arrived: %d\n", this->cargoArrived);
         printf("Amount of cargo destroyed: %d\n", this->cargoDestroyed);
         printf("############### Wait Time Statistics ###############\n");
-        printf("Average departure wait time: %.2fs\n", this->departureWaitTime);
-        printf("Average arrival wait time: %.2fs\n", this->arrivalWaitTime);
-        printf("Average departure wait time for grandchildren: %.2fs\n", this->grandchildrenDepartureWaitTime);
-        printf("Average arrival wait time for grandchildren: %.2fs\n", this->grandchildrenArrivalWaitTime);
+        printf("Average departure wait time: %.2ft\n", (float)this->departureWaitTime/(float)this->planesDeparted);
+        printf("Average arrival wait time: %.2ft\n", (float)this->arrivalWaitTime/(float)this->planesArrived);
+        printf("Average departure wait time for grandchildren: %.2ft\n", (float)this->grandchildrenDepartureWaitTime/(float)grandchildrenDeparted);
+        printf("Average arrival wait time for grandchildren: %.2ft\n", (float)this->grandchildrenArrivalWaitTime/(float)grandchildrenArrived);
     } else {
         printf("The data needs to be processed first.\n");
     }
