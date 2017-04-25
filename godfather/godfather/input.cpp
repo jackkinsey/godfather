@@ -31,8 +31,6 @@ AirportInputProcessor::AirportInputProcessor(char* input){
         }
         myfile.close();					//close the file
         this->_airport = new Airport(timeline);
-        this->_airport->process();
-        this->_airport->print();
     }
     
     else cout << "Unable to open file";	//the exception statement
@@ -40,7 +38,15 @@ AirportInputProcessor::AirportInputProcessor(char* input){
 }
 
 AirportInputProcessor::~AirportInputProcessor(){
+    delete this->_airport;
+}
 
+void AirportInputProcessor::process() {
+    this->_airport->process();
+}
+
+void AirportInputProcessor::print() {
+    this->_airport->print();
 }
 
 void AirportInputProcessor::parseData(string CSV, Plane *plane) {		
