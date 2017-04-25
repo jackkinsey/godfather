@@ -14,7 +14,8 @@ class TimelineIterator {
         DynamicArrayIterator<struct IndexNode>* _iter;
 
     public:
-        TimelineIterator(DynamicArrayIterator<struct IndexNode>* iter);
+        TimelineIterator(DynamicArray<struct IndexNode>* iter);
+        ~TimelineIterator();
 
         struct IndexNode* step();
 }

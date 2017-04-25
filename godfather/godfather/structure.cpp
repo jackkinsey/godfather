@@ -11,18 +11,48 @@ struct IndexNode {
     DynamicArray<struct Plane>* data;
 };
 
+TimelineIterator::TimelineIterator(DynamicArray<struct IndexNode>* iter) {
+    this->_iter = iter.iterate();
+}
+
+TimelineIterator::~TimelineIterator() {
+    delete this->_iter;
+}
+
+struct IndexNode* TimelineIterator::step() {
+    return this->_iter.step();
+}
+
 struct IndexNode* Timeline::createIndex(int depth, int index) {
+    //Add a new node to the central timeline.
+    //The new node is depth deep in the timeline, and is
+    // initialized to have time index of index.
+    //(Returns NULL if depth is larger than the array size + 1.)
+    if(depth == this->_center->size()) {
+    
+    } else if(depth > this->_center->size()) {
+    
+    }
     IndexNode newTime = new IndexNode;
     newTime->index = index;
     newTime->data = new DynamicArray<struct Plane>;
-    this->_center.insert(newTime, depth)
+    if(this->_center.insert(newTime, depth)) { 
+        return newTime; 
+    } else { 
+        delete newTime->data;
+        delete newTime; 
+        return NULL; 
+    }
 }
 
 Timeline::Timeline() {
+    //Initialize the timeline's central array.
     this->_center = new DynamicArray<struct IndexNode>;
 }
 
 Timeline::~Timeline() {
+    //Delete all the subarrays in the timeline,
+    // then delete the timeline's central array.
     DynamicArrayIterator<struct IndexNode> iter = this->_center.iterate();
     struct IndexNode* loc = iter.step();
     while(loc) {
@@ -33,25 +63,32 @@ Timeline::~Timeline() {
     delete this->_center;
 }
 
-struct IndexNode* Timeline::fetch(int depth) {
-    //Returns the IndexNode that is int depth deep
-    // in the Timeline. int depth must be within bounds.
-    if(depth >= this->_center.size()) { return NULL; }
-    DynamicArrayIterator<struct IndexNode> iter = this->_center.iterate();
-    struct IndexNode* loc = iter.step();
-
-    return NULL;
+TimelineIterator* Timeline::iterate() {
+    //Returns an iterator that allows the user to step through the timeline.
+    TimelineIterator* out = new TimelineIterator(this->_center);
+    return out;
 }
 
 bool Timeline::push(int index, struct Plane* el) {
     //Appends a Plane to the end of the IndexNode's list with index int index.
-    /*
-     * while center[i].index < index:
-     *  i++
-     * if center[i].index==index:
-     *  center[i].data.append(el);
-     * else:
-     *  createIndex(i, index).data.append(el);
-     */
-    return NULL;
+    TimelineIterator* iter = this->iterate();
+    struct IndexNode* node = iter->step();
+    int count = 0;
+    while(node) { //Walk the list until we find an IndexNode with
+                  // the index we're looking for, or greater.
+        if(node->index >= index) { break; }
+        count++;
+    }
+    if(node) { //If the node isn't null...
+        if(node->index == index) { //Either append the element (the node already exists)...
+            node->data->append(el);
+        } else if(node->index > index) { //...or make the node and append the element.
+            this->createIndex(count, index)->data->append(el);
+        }
+        return true;
+    } else { //If the node is null, make the node and append the element.
+        this->createIndex(count, index)->data->append(el);
+        return true;
+    }
+    return false; //You've met with a terrible fate, haven't you?
 }
