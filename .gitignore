@@ -12,3 +12,4 @@
 *.xcodeproj
 *.o
 *.DS_Store
+vgcore*
