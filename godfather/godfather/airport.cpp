@@ -14,7 +14,9 @@ Airport::Airport(Timeline* timeline) {
     this->grandchildrenArrivalWaitTime = 0;
 
     this->planesDeparted = 0;
+    this->grandchildrenDeparted = 0;
     this->planesArrived = 0;
+    this->grandchildrenArrived = 0;
     this->planesCrashed = 0;
 
     this->peopleArrived = 0;
@@ -104,6 +106,7 @@ bool Airport::refuel(struct Plane* plane, int timeIndex) {
     struct Plane* newPlane = planeCopy(plane);
     newPlane->fuel = Airport::FUEL_REQUIREMENT;
     this->_timeline->push(timeIndex + Airport::REFUELING_DELAY, newPlane);
+    printf("refueling\n");
     return true;
 }
 
@@ -115,6 +118,7 @@ bool Airport::depart(struct Plane* plane, int timeIndex) {
     }
     this->planesDeparted += 1;
     this->departureWaitTime += timeWaited;
+    printf("departing\n");
     return true;
 }
 
@@ -128,6 +132,7 @@ bool Airport::land(struct Plane* plane, int timeIndex) {
     this->arrivalWaitTime += timeWaited;
     this->peopleArrived += plane->numPeople;
     this->cargoArrived += plane->numCargo;
+    printf("landing\n");
     return true;
 }
 
@@ -138,6 +143,7 @@ bool Airport::crash(struct Plane* plane) {
     this->planesCrashed += 1;
     this->peopleKilled += plane->numPeople;
     this->cargoDestroyed += plane->numCargo;
+    printf("crashing\n");
     return true;
 }
 
@@ -150,6 +156,7 @@ bool Airport::delay(struct Plane* plane, int timeIndex, bool arriving) {
         newPlane->fuel -= 1;
     }
     this->_timeline->push(timeIndex + 1, newPlane);
+    printf("delayed\n");
     return true;
 }
 
@@ -170,10 +177,11 @@ void Airport::process() {
         delete timeIter;
         timeIter = nullptr;
 
-        time->sort();
+        //time->sort();
 
         timeIter = time->iterate();
         plane = timeIter->step();
+        printf("time: %d\n", timeIndex);
         while(plane) {
             this->processPlane(plane, timeIndex);
             plane = timeIter->step();
@@ -204,8 +212,8 @@ void Airport::print() {
         printf("############### Wait Time Statistics ###############\n");
         printf("Average departure wait time: %.2ft\n", (float)this->departureWaitTime/(float)this->planesDeparted);
         printf("Average arrival wait time: %.2ft\n", (float)this->arrivalWaitTime/(float)this->planesArrived);
-        printf("Average departure wait time for grandchildren: %.2ft\n", (float)this->grandchildrenDepartureWaitTime/(float)grandchildrenDeparted);
-        printf("Average arrival wait time for grandchildren: %.2ft\n", (float)this->grandchildrenArrivalWaitTime/(float)grandchildrenArrived);
+        printf("Average departure wait time for grandchildren: %.2ft\n", (float)this->grandchildrenDepartureWaitTime/(float)this->grandchildrenDeparted);
+        printf("Average arrival wait time for grandchildren: %.2ft\n", (float)this->grandchildrenArrivalWaitTime/(float)this->grandchildrenArrived);
     } else {
         printf("The data needs to be processed first.\n");
     }

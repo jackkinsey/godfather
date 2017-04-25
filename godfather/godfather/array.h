@@ -36,6 +36,10 @@ template <class T> class DynamicArray {
         struct Node<T>* addNode(T* datum, struct Node<T>* next, struct Node<T>* prev);
         struct Node<T>* scan(int loc);
 
+        struct Node<T>* _sort(struct Node<T>* head);
+        struct Node<T>* _merge(struct Node<T>* left, struct Node<T>* right);
+        struct Node<T>* _split(struct Node<T>* head);
+
     public:
         //Public interface.
         DynamicArray(int size = 0); //Default size of a DynamicArray is 0.
@@ -188,7 +192,52 @@ template <class T> bool DynamicArray<T>::remove(int loc) {
 }
 
 template <class T> void DynamicArray<T>::sort() {
-    return;
+    this->_first = this->_sort(this->_first);
+    this->_last = this->_first;
+    while(this->_last->next) {
+        this->_last = this->_last->next;
+    }
+}
+
+template <class T> struct Node<T>* DynamicArray<T>::_sort(struct Node<T>* head) {
+    if(head && head->next) {
+        struct Node<T>* back = this->_split(head);
+        this->_sort(head);
+        this->_sort(back);
+        this->_merge(head, back);
+    }
+    return head;
+}
+
+template <class T> struct Node<T>* DynamicArray<T>::_merge(struct Node<T>* left, struct Node<T>* right) {
+    struct Node<T>* out = nullptr;
+    if(left == nullptr) return right;
+    if(right == nullptr) return left;
+    if(*(left->datum) > *(right->datum)) {
+        out = right;
+        out->next = this->_merge(left, right->next);
+    } else {
+        out = left;
+        out->next = this->_merge(right, left->next);
+    }
+    return out;
+}
+
+template <class T> struct Node<T>* DynamicArray<T>::_split(struct Node<T>* head) {
+    struct Node<T>* fast;
+    struct Node<T>* slow;
+    slow = head;
+    fast = head->next;
+    while(fast) {
+        fast = fast->next;
+        if(fast) {
+            slow = slow->next;
+            fast = fast->next;
+        }
+    }
+    struct Node<T>* out = slow->next;
+    slow->next = nullptr;
+    return out;
 }
 
 template <class T> DynamicArrayIterator<T>* DynamicArray<T>::iterate(bool direction) {
