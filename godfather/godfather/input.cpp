@@ -10,27 +10,15 @@
 #include <string>
 #include <sstream>
 #include "input.h"
-#include "structure.h"
+#include "airport.h"
 
 using namespace std;
 
-struct Plane {
-	char dataType;
-	int time;
-	char action;
-	int fuel;
-	int numPeople;
-	int numCargo;
-	bool grandchildren;
-	double value;
-	
-};
-
-AirportInputProcessor::AirportInputProcessor(char[] file){
-	plane = new Plane; //Initialize first instance of the Plane structure
+AirportInputProcessor::AirportInputProcessor(char* input){
+	Plane* plane = new Plane; //Initialize first instance of the Plane structure
 	string line;				//this is the variable line that is obtained from each line of the CSV
-        Timeline timeline = new Timeline();
-    ifstream myfile (file);	//opens the "data.csv" file to be read
+        Timeline* timeline = new Timeline;
+    ifstream myfile (input);	//opens the "data.csv" file to be read
     if (myfile.is_open())			//if the file is successfully opened...
     {
         cout <<"File is Open"<<"\n";	//let me know that the file is opened
@@ -38,7 +26,7 @@ AirportInputProcessor::AirportInputProcessor(char[] file){
         {
         	cout<<line<<"\n";
             parseData(line, plane);		//initialize the constructors properties with the elements of each line
-            timeline.push(plane->time, plane);
+            timeline->push(plane->time, plane);
             plane = new Plane;	//initialize a new instance of the plane
         }
         myfile.close();					//close the file

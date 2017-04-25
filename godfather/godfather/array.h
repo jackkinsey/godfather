@@ -2,8 +2,8 @@
  * array.h
  * Implements the (templated) dynamic array data structure.
  */
-#ifndef _dynamic
-#define _dynamic
+#ifndef _dynamic_h
+#define _dynamic_h
 #include <stdlib.h> //For malloc, etc.
 #include <string.h> //For memcpy.
 #include <iostream>
@@ -46,7 +46,7 @@ template <class T> class DynamicArray {
         bool remove(int loc);
         DynamicArrayIterator<T>* iterate(bool direction=true);
 
-        int size() { return this._size; };
+        int size() { return this->_size; };
 };
 
 template <class T> DynamicArrayIterator<T>::DynamicArrayIterator(struct Node<T>* iter, bool direction) {

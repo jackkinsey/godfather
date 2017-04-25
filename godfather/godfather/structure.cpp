@@ -4,12 +4,6 @@
  */
 #include "array.h"
 #include "structure.h"
-#include "airport.h"
-
-struct IndexNode {
-    int index;
-    DynamicArray<struct Plane>* data;
-};
 
 TimelineIterator::TimelineIterator(DynamicArray<struct IndexNode>* iter) {
     this->_iter = iter->iterate();
@@ -21,7 +15,7 @@ TimelineIterator::~TimelineIterator() {
 
 struct IndexNode* TimelineIterator::step() {
     //Return the current IndexNode and step forward.
-    return this->_iter.step();
+    return this->_iter->step();
 }
 
 struct IndexNode* Timeline::createIndex(int depth, int index) {
@@ -34,10 +28,10 @@ struct IndexNode* Timeline::createIndex(int depth, int index) {
     } else if(depth > this->_center->size()) {
     
     }
-    IndexNode newTime = new IndexNode;
+    IndexNode* newTime = new IndexNode;
     newTime->index = index;
     newTime->data = new DynamicArray<struct Plane>;
-    if(this->_center.insert(newTime, depth)) { 
+    if(this->_center->insert(newTime, depth)) { 
         return newTime; 
     } else { 
         delete newTime->data;
@@ -54,11 +48,11 @@ Timeline::Timeline() {
 Timeline::~Timeline() {
     //Delete all the subarrays in the timeline,
     // then delete the timeline's central array.
-    DynamicArrayIterator<struct IndexNode> iter = this->_center.iterate();
-    struct IndexNode* loc = iter.step();
+    DynamicArrayIterator<struct IndexNode>* iter = this->_center->iterate();
+    struct IndexNode* loc = iter->step();
     while(loc) {
         delete loc->data;
-        loc = iter.step();
+        loc = iter->step();
     }
     delete iter;
     delete this->_center;

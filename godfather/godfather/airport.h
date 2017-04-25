@@ -2,11 +2,9 @@
  * airport.h
  * Defines the structure of the classes in airport.cpp.
  */
-#ifndef _airport
-#define _airport
+#ifndef _airport_h
+#define _airport_h
 #include "structure.h"
-
-struct Plane;
 
 class Airport {
     private:
@@ -15,11 +13,11 @@ class Airport {
 	int numberOfDepartingPlanes;
 	int numberOfArrivingPlanes; 
 
-	bool refuel(Plane& plane);
-	bool depart(Plane& plane);
-	bool land(Plane& plane);
-	bool crash(Plane& plane);
-	void getValue(Plane& plane);
+	bool refuel(Plane* plane);
+	bool depart(Plane* plane);
+	bool land(Plane* plane);
+	bool crash(Plane* plane);
+	void getValue(Plane* plane);
 	
     public:
         Airport(Timeline* timeline);

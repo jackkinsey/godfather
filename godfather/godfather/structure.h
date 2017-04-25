@@ -2,13 +2,27 @@
  * structure.h
  * Defines the interface of the timeline data structure in structure.cpp.
  */
-#ifndef _structure
-#define _structure
+#ifndef _structure_h
+#define _structure_h
 #include "array.h"
-#include "airport.h"
 
-struct IndexNode;
-struct Plane;
+struct IndexNode {
+    int index;
+    DynamicArray<struct Plane>* data;
+};
+
+struct Plane {
+	char dataType;
+	char action;
+	bool grandchildren;
+	int time;
+	int fuel;
+	int numPeople;
+	int numCargo;
+	double value;
+	
+};
+
 
 class TimelineIterator {
     private:
