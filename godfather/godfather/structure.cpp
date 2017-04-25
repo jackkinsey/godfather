@@ -92,12 +92,15 @@ bool Timeline::push(int index, struct Plane* el) {
     if(node) { //If the node isn't null...
         if(node->index == index) { //Either append the element (the node already exists)...
             node->data->append(el);
+            printf("appending to %d\n", index);
         } else if(node->index > index) { //...or make the node and append the element.
             this->createIndex(count, index)->data->append(el);
+            printf("c:appending to %d\n", index);
         }
         return true;
     } else { //If the node is null, make the node and append the element.
         this->createIndex(count, index)->data->append(el);
+        printf("cn:appending to %d\n", index);
         return true;
     }
 }
