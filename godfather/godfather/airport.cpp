@@ -77,17 +77,19 @@ void Airport::process() {
 }
 
 void Airport::print() {
+    printf("####################################################\n");
+    printf("######### Arrival and Departure Statistics #########\n");
     printf("Number of planes departed: %d\n", this->planesDeparted);
     printf("Number of planes arrived: %d\n", this->planesArrived);
-    printf("Number of planes crashed: %d\n", this->planesCrashed);
-
     printf("Number of people arrived: %d\n", this->peopleArrived);
+    printf("########### Fatality and Crash Stastics ############\n");
+    printf("Number of planes crashed: %d\n", this->planesCrashed);
     printf("Number of people killed: %d\n", this->peopleKilled);
     printf("Number of grandchildren killed: %d\n", this->grandchildrenKilled);
-
+    printf("################# Cargo Statistics #################\n");
     printf("Amount of cargo arrived: %d\n", this->cargoArrived);
     printf("Amount of cargo destroyed: %d\n", this->cargoDestroyed);
-
+    printf("############### Wait Time Statistics ###############\n");
     printf("Average departure wait time: %.2fs\n", this->departureWaitTime);
     printf("Average arrival wait time: %.2fs\n", this->arrivalWaitTime);
     printf("Average departure wait time for grandchildren: %.2fs\n", this->grandchildrenDepartureWaitTime);
