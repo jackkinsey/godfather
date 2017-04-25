@@ -12,7 +12,7 @@ struct IndexNode {
 };
 
 TimelineIterator::TimelineIterator(DynamicArray<struct IndexNode>* iter) {
-    this->_iter = iter.iterate();
+    this->_iter = iter->iterate();
 }
 
 TimelineIterator::~TimelineIterator() {
@@ -20,6 +20,7 @@ TimelineIterator::~TimelineIterator() {
 }
 
 struct IndexNode* TimelineIterator::step() {
+    //Return the current IndexNode and step forward.
     return this->_iter.step();
 }
 

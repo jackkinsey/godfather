@@ -8,6 +8,7 @@
 #include "airport.h"
 
 struct IndexNode;
+struct Plane;
 
 class TimelineIterator {
     private:
@@ -18,7 +19,7 @@ class TimelineIterator {
         ~TimelineIterator();
 
         struct IndexNode* step();
-}
+};
 
 class Timeline {
     private:

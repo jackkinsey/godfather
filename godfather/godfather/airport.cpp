@@ -32,26 +32,26 @@ void Airport::getValue(Plane& plane) {
 }
 
 bool Airport::refuel(Plane& plane) {
-	if (plane.fuel < 20) {
-        return true;}
-    else {
-        return false;}
+    if(plane.fuel < 20) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 bool Airport::depart(Plane& plane) {
-	if (
+    return true;
 }
 
 bool Airport::land(Plane& plane) {
-	(if plane == maxPlaneToLand1 || plane == maxPlaneToLand2) { return true; } else { return false}
+    //if(plane == maxPlaneToLand1 || plane == maxPlaneToLand2) { return true; } else { return false; }
+    return true;
 }
 
 bool Airport::crash(Plane& plane) {
 	if (!land(plane) && plane.time == 1) {return true;} else {return false;}
 }
 
-
 void Airport::process() {
-
 
 }

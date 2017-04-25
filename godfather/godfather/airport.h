@@ -15,18 +15,17 @@ class Airport {
 	int numberOfDepartingPlanes;
 	int numberOfArrivingPlanes; 
 
-	bool refuel(Plane);
-	bool depart(Plane);
-	bool land(Plane);
-	bool crash(Plane);
-	int getValue(Plane);
+	bool refuel(Plane& plane);
+	bool depart(Plane& plane);
+	bool land(Plane& plane);
+	bool crash(Plane& plane);
+	void getValue(Plane& plane);
 	
     public:
         Airport(Timeline* timeline);
         ~Airport();
 	void process();
         void print();
-
 };
 
 #endif

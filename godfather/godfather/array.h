@@ -188,10 +188,11 @@ template <class T> bool DynamicArray<T>::remove(int loc) {
 template <class T> DynamicArrayIterator<T>* DynamicArray<T>::iterate(bool direction) {
     //Returns an array iterator that allows the user to step through the array
     // in the given direction. True: forward, false: backward.
+    DynamicArrayIterator<T>* out;
     if(direction) {
-        DynamicArrayIterator<T>* out = new DynamicArrayIterator<T>(this->_first, direction);
+        out = new DynamicArrayIterator<T>(this->_first, direction);
     } else {
-        DynamicArrayIterator<T>* out = new DynamicArrayIterator<T>(this->_last, direction);
+        out = new DynamicArrayIterator<T>(this->_last, direction);
     }
     return out;
 }
