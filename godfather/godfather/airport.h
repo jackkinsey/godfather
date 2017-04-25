@@ -10,18 +10,32 @@ class Airport {
     private:
         Timeline* _timeline;
 
-	int numberOfDepartingPlanes;
-	int numberOfArrivingPlanes; 
+        float departureWaitTime;
+        float arrivalWaitTime;
+        float grandchildrenDepartureWaitTime;
+        float grandchildrenArrivalWaitTime;
+
+        int planesDeparted;
+        int planesArrived;
+        int planesCrashed;
+
+        int peopleArrived;
+        int peopleKilled;
+        int grandchildrenKilled;
+
+        int cargoArrived;
+        int cargoDestroyed;
 
 	bool refuel(Plane* plane);
 	bool depart(Plane* plane);
 	bool land(Plane* plane);
 	bool crash(Plane* plane);
-	void getValue(Plane* plane);
+	int getValue(Plane* plane);
 	
     public:
         Airport(Timeline* timeline);
         ~Airport();
+
 	void process();
         void print();
 };
