@@ -18,8 +18,7 @@ class AirportInputProcessor {
 
         void process();
         void print();
-        void parseData(string CSV, Plane *plane);
-
+        void parseData(string CSV, struct Plane* plane);
 };
 
 #endif

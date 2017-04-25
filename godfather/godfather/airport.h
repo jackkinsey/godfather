@@ -10,13 +10,18 @@ class Airport {
     private:
         Timeline* _timeline;
 
-        float departureWaitTime;
-        float arrivalWaitTime;
-        float grandchildrenDepartureWaitTime;
-        float grandchildrenArrivalWaitTime;
+        bool processed;
+        int runwaysUsed;
+
+        int departureWaitTime;
+        int arrivalWaitTime;
+        int grandchildrenDepartureWaitTime;
+        int grandchildrenArrivalWaitTime;
 
         int planesDeparted;
+        int grandchildrenDeparted;
         int planesArrived;
+        int grandchildrenArrived;
         int planesCrashed;
 
         int peopleArrived;
@@ -26,11 +31,21 @@ class Airport {
         int cargoArrived;
         int cargoDestroyed;
 
-	bool refuel(Plane* plane);
-	bool depart(Plane* plane);
-	bool land(Plane* plane);
-	bool crash(Plane* plane);
-	int getValue(Plane* plane);
+	bool refuel(struct Plane* plane, int timeIndex);
+	bool depart(struct Plane* plane, int timeIndex);
+	bool land(struct Plane* plane, int timeIndex);
+	bool crash(struct Plane* plane);
+	bool delay(struct Plane* plane, int timeIndex, bool arriving);
+
+        void processPlane(struct Plane* plane, int timeIndex);
+
+	int getValue(struct Plane* plane);
+
+        static const char ARRIVAL = 'A';
+        static const char DEPARTURE = 'D';
+        static const int RUNWAY_COUNT = 2;
+        static const int FUEL_REQUIREMENT = 20;
+        static const int REFUELING_DELAY = 10;
 	
     public:
         Airport(Timeline* timeline);
