@@ -5,6 +5,8 @@
 #include "array.h"
 #include "structure.h"
 
+bool Plane::operator>(const Plane& plane) const { return value > plane.value; }
+
 TimelineIterator::TimelineIterator(DynamicArray<struct IndexNode>* iter) {
     this->_iter = iter->iterate();
 }

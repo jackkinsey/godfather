@@ -20,6 +20,7 @@ struct Plane {
 	int numPeople;
 	int numCargo;
 	double value;
+        bool operator>(const Plane&) const;
 };
 
 

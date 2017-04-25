@@ -44,6 +44,7 @@ template <class T> class DynamicArray {
         struct Node<T>* append(T* el);
         struct Node<T>* insert(T* el, int loc);
         bool remove(int loc);
+        void sort();
         DynamicArrayIterator<T>* iterate(bool direction=true);
 
         int size() { return this->_size; };
@@ -184,6 +185,10 @@ template <class T> bool DynamicArray<T>::remove(int loc) {
     free(head);
     this->_size--;
     return true;
+}
+
+template <class T> void DynamicArray<T>::sort() {
+    return;
 }
 
 template <class T> DynamicArrayIterator<T>* DynamicArray<T>::iterate(bool direction) {
