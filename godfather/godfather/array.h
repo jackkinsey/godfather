@@ -17,6 +17,7 @@ template <class T> struct Node {
 template <class T> class DynamicArrayIterator {
     private:
         struct Node<T>* _iter;
+        struct Node<T>* _next;
         bool _direction; //True is forward, false is backward.
 
     public:
@@ -36,9 +37,9 @@ template <class T> class DynamicArray {
         struct Node<T>* addNode(T* datum, struct Node<T>* next, struct Node<T>* prev);
         struct Node<T>* scan(int loc);
 
-        struct Node<T>* _sort(struct Node<T>* head);
-        struct Node<T>* _merge(struct Node<T>* left, struct Node<T>* right);
-        struct Node<T>* _split(struct Node<T>* head);
+        //struct Node<T>* _sort(struct Node<T>* head);
+        //struct Node<T>* _merge(struct Node<T>* left, struct Node<T>* right);
+        //struct Node<T>* _split(struct Node<T>* head);
 
     public:
         //Public interface.
@@ -48,31 +49,42 @@ template <class T> class DynamicArray {
         struct Node<T>* append(T* el);
         struct Node<T>* insert(T* el, int loc);
         bool remove(int loc);
-        void sort();
+        void sort(int loc);
+        //void sort();
         DynamicArrayIterator<T>* iterate(bool direction=true);
 
         int size() { return this->_size; };
 };
 
 template <class T> DynamicArrayIterator<T>::DynamicArrayIterator(struct Node<T>* iter, bool direction) {
-    this->_iter = iter;   
+    this->_iter = nullptr;   
+    this->_next = iter;
     this->_direction = direction;
 }
 
 template <class T> T* DynamicArrayIterator<T>::step() {
-    //Returns the current node and then moves on to the next node in the list.
-    T* temp;
-    if(this->_iter) {
-        temp = this->_iter->datum;
-        if(this->_direction) {
-            this->_iter = this->_iter->next;
+    //Moves to the next node in the list and returns its datum.
+    if(!this->_iter) {
+        this->_iter = this->_next;
+        this->_next = nullptr;
+        if(this->_iter) {
+            return this->_iter->datum;
         } else {
-            this->_iter = this->_iter->prev;
+            return nullptr;
         }
-    } else {
-        temp = nullptr;
     }
-    return temp;
+    if(this->_direction && this->_iter) {
+        this->_iter = this->_iter->next;
+    } else if(this->_iter) {
+        this->_iter = this->_iter->prev;
+    } else {
+        return nullptr;
+    }
+    if(this->_iter) {
+        return this->_iter->datum;
+    } else {
+        return nullptr;
+    }
 }
 
 template <class T> DynamicArray<T>::DynamicArray(int size) {
@@ -191,7 +203,42 @@ template <class T> bool DynamicArray<T>::remove(int loc) {
     return true;
 }
 
-template <class T> void DynamicArray<T>::sort() {
+
+template <class T> void DynamicArray<T>::sort(int loc) {
+    struct Node<T>* max = this->scan(loc);
+    if(max == nullptr) {
+        //printf("bad!");
+        return;
+    }
+    struct Node<T>* next = max->next;
+    while(next) {
+        if(*(max->datum) > *(next->datum)) {
+            //Change nothing.
+        } else {
+            max = next; //New biggest element.
+        }
+        next = next->next;
+    }
+    if(max->next == nullptr && max->prev == nullptr) {
+        return;
+    }
+    if(max->next) {
+        max->next->prev = max->prev;
+    } else {
+        max->prev->next = nullptr;
+    }
+    if(max->prev) {
+        max->prev->next = max->next;
+    } else {
+        max->next->prev = nullptr;
+    }
+    this->_first->prev = max;
+    max->next = this->_first;
+    this->_first = max;
+}
+
+
+/*template <class T> void DynamicArray<T>::sort() {
     this->_first = this->_sort(this->_first);
     this->_last = this->_first;
     while(this->_last->next) {
@@ -238,7 +285,7 @@ template <class T> struct Node<T>* DynamicArray<T>::_split(struct Node<T>* head)
     struct Node<T>* out = slow->next;
     slow->next = nullptr;
     return out;
-}
+}*/
 
 template <class T> DynamicArrayIterator<T>* DynamicArray<T>::iterate(bool direction) {
     //Returns an array iterator that allows the user to step through the array
@@ -249,6 +296,7 @@ template <class T> DynamicArrayIterator<T>* DynamicArray<T>::iterate(bool direct
     } else {
         out = new DynamicArrayIterator<T>(this->_last, direction);
     }
+    //printf("out: %p\n", (void*)this->_first);
     return out;
 }
 #endif

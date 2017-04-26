@@ -40,13 +40,13 @@ class Timeline {
         DynamicArray<struct IndexNode>*  _center; //The central timeline.
 
         struct IndexNode* createIndex(int depth, int index);
-        void deleteIndex(struct IndexNode* index);
 
     public:
         Timeline();
         ~Timeline();
 
         TimelineIterator* iterate();
+        void deleteIndex(struct IndexNode* index);
         bool push(int index, struct Plane* el);
 };
 

@@ -2,7 +2,7 @@ CXX = g++
 CXXFLAGS = -Wall -g -std=c++11
 EXE = godfather
 
-build: main.o airport.o structure.o input.o
+build: main.o airport.o structure.o input.o array.h
 	$(CXX) $(CXXFLAGS) main.o airport.o structure.o input.o -o $(EXE)
 
 main.o: main.cpp

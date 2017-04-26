@@ -31,18 +31,22 @@ struct IndexNode* Timeline::createIndex(int depth, int index) {
         newTime->index = index;
         newTime->data = new DynamicArray<struct Plane>;
         this->_center->append(newTime);
+        //printf("depth at %d %d\n", depth, index);
         return newTime;
     } else if(depth > this->_center->size()) {
+        //printf("bigdepth at %d %d\n", depth, index);
         return nullptr;   
     } else {
         IndexNode* newTime = new IndexNode;
         newTime->index = index;
         newTime->data = new DynamicArray<struct Plane>;
         if(this->_center->insert(newTime, depth)) { 
+            //printf("inserted at %d %d\n", depth, index);
             return newTime; 
         } else { 
             delete newTime->data;
             delete newTime; 
+            //printf("failed at %d %d\n", depth, index);
             return nullptr; 
         }
     }
@@ -92,15 +96,15 @@ bool Timeline::push(int index, struct Plane* el) {
     if(node) { //If the node isn't null...
         if(node->index == index) { //Either append the element (the node already exists)...
             node->data->append(el);
-            printf("appending to %d\n", index);
+            //printf("appending to %d\n", index);
         } else if(node->index > index) { //...or make the node and append the element.
             this->createIndex(count, index)->data->append(el);
-            printf("c:appending to %d\n", index);
+            //printf("c:appending to %d\n", index);
         }
         return true;
     } else { //If the node is null, make the node and append the element.
         this->createIndex(count, index)->data->append(el);
-        printf("cn:appending to %d\n", index);
+        //printf("cn:appending to %d\n", index);
         return true;
     }
 }

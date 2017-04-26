@@ -106,7 +106,8 @@ bool Airport::refuel(struct Plane* plane, int timeIndex) {
     struct Plane* newPlane = planeCopy(plane);
     newPlane->fuel = Airport::FUEL_REQUIREMENT;
     this->_timeline->push(timeIndex + Airport::REFUELING_DELAY, newPlane);
-    printf("refueling\n");
+    //printf("refueling %d\n", Airport::REFUELING_DELAY);
+    //printf("refueling\n");
     return true;
 }
 
@@ -118,7 +119,7 @@ bool Airport::depart(struct Plane* plane, int timeIndex) {
     }
     this->planesDeparted += 1;
     this->departureWaitTime += timeWaited;
-    printf("departing\n");
+    //printf("departing\n");
     return true;
 }
 
@@ -132,7 +133,7 @@ bool Airport::land(struct Plane* plane, int timeIndex) {
     this->arrivalWaitTime += timeWaited;
     this->peopleArrived += plane->numPeople;
     this->cargoArrived += plane->numCargo;
-    printf("landing\n");
+    //printf("landing\n");
     return true;
 }
 
@@ -143,7 +144,7 @@ bool Airport::crash(struct Plane* plane) {
     this->planesCrashed += 1;
     this->peopleKilled += plane->numPeople;
     this->cargoDestroyed += plane->numCargo;
-    printf("crashing\n");
+    //printf("crashing\n");
     return true;
 }
 
@@ -156,7 +157,7 @@ bool Airport::delay(struct Plane* plane, int timeIndex, bool arriving) {
         newPlane->fuel -= 1;
     }
     this->_timeline->push(timeIndex + 1, newPlane);
-    printf("delayed\n");
+    //printf("delayed\n");
     return true;
 }
 
@@ -177,18 +178,21 @@ void Airport::process() {
         delete timeIter;
         timeIter = nullptr;
 
-        //time->sort();
+        time->sort(0);
+        time->sort(1);
 
         timeIter = time->iterate();
         plane = timeIter->step();
-        printf("time: %d\n", timeIndex);
+        //printf("time: %d\n", timeIndex);
         while(plane) {
             this->processPlane(plane, timeIndex);
+            //printf("plane\n");
             plane = timeIter->step();
         }
         delete timeIter;
 
         this->runwaysUsed = 0;
+        this->_timeline->deleteIndex(node);
         node = iter->step();
     }
     this->processed = true;
