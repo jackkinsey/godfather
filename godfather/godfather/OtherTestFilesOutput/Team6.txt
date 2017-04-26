@@ -1,0 +1,18 @@
+####################################################
+######### Arrival and Departure Statistics #########
+Number of planes departed: 13
+Number of planes arrived: 16
+Number of people arrived: 2451
+########### Fatality and Crash Stastics ############
+Number of planes crashed: 0
+Number of people killed: 0
+Number of grandchildren killed: 0
+################# Cargo Statistics #################
+Amount of cargo arrived: 6745000
+Amount of cargo destroyed: 0
+############### Wait Time Statistics ###############
+Average departure wait time: 1.15t
+Average arrival wait time: 1.38t
+Average departure wait time for grandchildren: 0.20t
+Average arrival wait time for grandchildren: 1.88t
+Process time: 0.00s
