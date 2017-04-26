@@ -36,12 +36,14 @@ Airport::~Airport() {
 }
 
 int Airport::getValue(struct Plane* plane) {
+        //Set the weights.
 	int value;
 	int weightPeople = 10;
 	int weightCargo = 5;
 	int fuelFactor = 3;
 	float multiplierGrandchildren = 1.25;
 
+        //Weight the planes.
 	if (plane->grandchildren) {
             value = (multiplierGrandchildren * weightPeople * plane->numPeople) + 
                      (weightCargo * plane->numCargo) + 
@@ -56,28 +58,29 @@ int Airport::getValue(struct Plane* plane) {
 }
 
 void Airport::processPlane(struct Plane* plane, int timeIndex) {
-    if(this->runwaysUsed >= Airport::RUNWAY_COUNT) {
-        if(plane->action == Airport::ARRIVAL) {
-            if(plane->fuel == 1) {
-                this->crash(plane);
-            } else {
-                this->delay(plane, timeIndex, true);
+    //Process the plane.
+    if(this->runwaysUsed >= Airport::RUNWAY_COUNT) { //If there aren't any runways left...
+        if(plane->action == Airport::ARRIVAL) { //And the plane is arriving...
+            if(plane->fuel == 1) { //But it's out of fuel...
+                this->crash(plane); //...it crashes.
+            } else { //Otherwise...
+                this->delay(plane, timeIndex, true); //...it's delayed.
             }
-        } else if(plane->action == Airport::DEPARTURE) {
-            this->delay(plane, timeIndex, false);
+        } else if(plane->action == Airport::DEPARTURE) { //And the plane is departing...
+            this->delay(plane, timeIndex, false); //...it's delayed.
         } else {
             //I don't know what you did, but something bad is going to happen because of it.
             return;
         }
-    } else {
-        if(plane->action == Airport::ARRIVAL) {
-            this->land(plane, timeIndex);
+    } else { //If there are free runways...
+        if(plane->action == Airport::ARRIVAL) { //And the plane is arriving...
+            this->land(plane, timeIndex); //...land it, and use a runway.
             this->runwaysUsed++;
-        } else if(plane->action == Airport::DEPARTURE) {
-            if(plane->fuel < Airport::FUEL_REQUIREMENT) {
-                this->refuel(plane, timeIndex);
-            } else {
-                this->depart(plane, timeIndex);
+        } else if(plane->action == Airport::DEPARTURE) { //And the plane is departing...
+            if(plane->fuel < Airport::FUEL_REQUIREMENT) { //If it doesn't meet the fuel requirement...
+                this->refuel(plane, timeIndex); //Send it to refuel.
+            } else { //Otherwise...
+                this->depart(plane, timeIndex); //Depart it, and use a runway.
                 this->runwaysUsed++;
             }
         } else {
@@ -88,6 +91,7 @@ void Airport::processPlane(struct Plane* plane, int timeIndex) {
 }
 
 struct Plane* planeCopy(struct Plane* plane) {
+    //Make a physical copy of a Plane struct.
     struct Plane* newPlane = new struct Plane;
     newPlane->dataType = plane->dataType;
     newPlane->action = plane->action;
@@ -106,12 +110,11 @@ bool Airport::refuel(struct Plane* plane, int timeIndex) {
     struct Plane* newPlane = planeCopy(plane);
     newPlane->fuel = Airport::FUEL_REQUIREMENT;
     this->_timeline->push(timeIndex + Airport::REFUELING_DELAY, newPlane);
-    //printf("refueling %d\n", Airport::REFUELING_DELAY);
-    //printf("refueling\n");
     return true;
 }
 
 bool Airport::depart(struct Plane* plane, int timeIndex) {
+    //Send the plane off, and update statistics.
     int timeWaited = timeIndex - plane->time;
     if(plane->grandchildren) {
         this->grandchildrenDepartureWaitTime += timeWaited;
@@ -119,11 +122,11 @@ bool Airport::depart(struct Plane* plane, int timeIndex) {
     }
     this->planesDeparted += 1;
     this->departureWaitTime += timeWaited;
-    //printf("departing\n");
     return true;
 }
 
 bool Airport::land(struct Plane* plane, int timeIndex) {
+    //Land the plane, and update statistics.
     int timeWaited = timeIndex - plane->time;
     if(plane->grandchildren) {
         this->grandchildrenArrivalWaitTime += timeWaited;
@@ -133,18 +136,17 @@ bool Airport::land(struct Plane* plane, int timeIndex) {
     this->arrivalWaitTime += timeWaited;
     this->peopleArrived += plane->numPeople;
     this->cargoArrived += plane->numCargo;
-    //printf("landing\n");
     return true;
 }
 
 bool Airport::crash(struct Plane* plane) {
+    //Crash the plane, and update statistics.
     if(plane->grandchildren) {
         this->grandchildrenKilled += 1;
     }
     this->planesCrashed += 1;
     this->peopleKilled += plane->numPeople;
     this->cargoDestroyed += plane->numCargo;
-    //printf("crashing\n");
     return true;
 }
 
@@ -152,47 +154,45 @@ bool Airport::delay(struct Plane* plane, int timeIndex, bool arriving) {
     //bool arriving is true if the plane is arriving, false if it's departing.
     //Copies the plane so it doesn't get deleted twice further down the road.
     //(That would be an error.)
+    //Delay the plane to the next time index.
     struct Plane* newPlane = planeCopy(plane);
     if(arriving) {
         newPlane->fuel -= 1;
     }
     this->_timeline->push(timeIndex + 1, newPlane);
-    //printf("delayed\n");
     return true;
 }
 
 void Airport::process() {
+    //Main processing algorithm.
     if(this->processed) return; //Don't process if it's already been done.
     TimelineIterator* iter = this->_timeline->iterate();   
     struct IndexNode* node = iter->step();
-    while(node) {
+    while(node) { //Iterate through all the time indexs.
         int timeIndex = node->index;
         DynamicArray<struct Plane>* time = node->data;
 
         DynamicArrayIterator<struct Plane>* timeIter = time->iterate();
         struct Plane* plane = timeIter->step();
-        while(plane) {
+        while(plane) { //Weight all the planes.
             plane->value = this->getValue(plane);
             plane = timeIter->step();
         }
         delete timeIter;
         timeIter = nullptr;
 
-        time->sort(0);
-        time->sort(1);
+        time->sort(); //Sort them by weight, greatest to least.
 
         timeIter = time->iterate();
         plane = timeIter->step();
-        //printf("time: %d\n", timeIndex);
-        while(plane) {
+        while(plane) { //Process all the planes.
             this->processPlane(plane, timeIndex);
-            //printf("plane\n");
             plane = timeIter->step();
         }
         delete timeIter;
 
         this->runwaysUsed = 0;
-        this->_timeline->deleteIndex(node);
+        this->_timeline->deleteIndex(node); //Delete the current index (it'll never be used again).
         node = iter->step();
     }
     this->processed = true;

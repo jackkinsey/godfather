@@ -37,9 +37,9 @@ template <class T> class DynamicArray {
         struct Node<T>* addNode(T* datum, struct Node<T>* next, struct Node<T>* prev);
         struct Node<T>* scan(int loc);
 
-        //struct Node<T>* _sort(struct Node<T>* head);
-        //struct Node<T>* _merge(struct Node<T>* left, struct Node<T>* right);
-        //struct Node<T>* _split(struct Node<T>* head);
+        struct Node<T>* _sort(struct Node<T>* head);
+        struct Node<T>* _merge(struct Node<T>* left, struct Node<T>* right);
+        struct Node<T>* _split(struct Node<T>* head);
 
     public:
         //Public interface.
@@ -49,8 +49,7 @@ template <class T> class DynamicArray {
         struct Node<T>* append(T* el);
         struct Node<T>* insert(T* el, int loc);
         bool remove(int loc);
-        void sort(int loc);
-        //void sort();
+        void sort();
         DynamicArrayIterator<T>* iterate(bool direction=true);
 
         int size() { return this->_size; };
@@ -203,42 +202,8 @@ template <class T> bool DynamicArray<T>::remove(int loc) {
     return true;
 }
 
-
-template <class T> void DynamicArray<T>::sort(int loc) {
-    struct Node<T>* max = this->scan(loc);
-    if(max == nullptr) {
-        //printf("bad!");
-        return;
-    }
-    struct Node<T>* next = max->next;
-    while(next) {
-        if(*(max->datum) > *(next->datum)) {
-            //Change nothing.
-        } else {
-            max = next; //New biggest element.
-        }
-        next = next->next;
-    }
-    if(max->next == nullptr && max->prev == nullptr) {
-        return;
-    }
-    if(max->next) {
-        max->next->prev = max->prev;
-    } else {
-        max->prev->next = nullptr;
-    }
-    if(max->prev) {
-        max->prev->next = max->next;
-    } else {
-        max->next->prev = nullptr;
-    }
-    this->_first->prev = max;
-    max->next = this->_first;
-    this->_first = max;
-}
-
-
-/*template <class T> void DynamicArray<T>::sort() {
+template <class T> void DynamicArray<T>::sort() {
+    //Public sort function. Sorts the list greatest to least.
     this->_first = this->_sort(this->_first);
     this->_last = this->_first;
     while(this->_last->next) {
@@ -247,16 +212,19 @@ template <class T> void DynamicArray<T>::sort(int loc) {
 }
 
 template <class T> struct Node<T>* DynamicArray<T>::_sort(struct Node<T>* head) {
+    //Private recursive sort function.
+    //Uses MergeSort.
     if(head && head->next) {
         struct Node<T>* back = this->_split(head);
-        this->_sort(head);
-        this->_sort(back);
-        this->_merge(head, back);
+        head = this->_sort(head);
+        back = this->_sort(back);
+        head = this->_merge(head, back);
     }
     return head;
 }
 
 template <class T> struct Node<T>* DynamicArray<T>::_merge(struct Node<T>* left, struct Node<T>* right) {
+    //Merges two lists.
     struct Node<T>* out = nullptr;
     if(left == nullptr) return right;
     if(right == nullptr) return left;
@@ -271,6 +239,7 @@ template <class T> struct Node<T>* DynamicArray<T>::_merge(struct Node<T>* left,
 }
 
 template <class T> struct Node<T>* DynamicArray<T>::_split(struct Node<T>* head) {
+    //Splits the list with first node head in half.
     struct Node<T>* fast;
     struct Node<T>* slow;
     slow = head;
@@ -283,9 +252,10 @@ template <class T> struct Node<T>* DynamicArray<T>::_split(struct Node<T>* head)
         }
     }
     struct Node<T>* out = slow->next;
+    out->prev = nullptr;
     slow->next = nullptr;
     return out;
-}*/
+}
 
 template <class T> DynamicArrayIterator<T>* DynamicArray<T>::iterate(bool direction) {
     //Returns an array iterator that allows the user to step through the array
@@ -296,7 +266,6 @@ template <class T> DynamicArrayIterator<T>* DynamicArray<T>::iterate(bool direct
     } else {
         out = new DynamicArrayIterator<T>(this->_last, direction);
     }
-    //printf("out: %p\n", (void*)this->_first);
     return out;
 }
 #endif
